@@ -10,7 +10,7 @@ As a developer I want to keep my code dry so that decrease page load.
 
 User:
 As a user I want the site to be organize and have a logical flow so that I can easily participate and interact with the site.
-As a user I want the site to look simple and easy to read so that I don't strain my eyes trying to read text.
+As a user I want to be able to easily access the information that I need quickly so that I don't waste too much time digging through irrelevant content.
 As a user I want the site to provide some kind of instructions so I can follow along.  
 As a user I want the site to provide helpful hints when I've done something wrong.
 
