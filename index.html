@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Bus Mall</title>
+    <script src='Chart.min.js'></script>
     <link rel="stylesheet" href="style.css" media="screen" title="no title">
   </head>
   <body>
@@ -22,13 +23,20 @@
       </section>
       <button id ="show" type="button">See Results</button>
 
+
+      <canvas id="bar_chart" width="600" height="400"></canvas>
+
       <section id="result">
 
 
       </section>
 
+
+
     </main>
     <footer></footer>
+    var bar_chart = document.getElementById('bar_chart').getContext('2d');
+    new Chart(bar_chart).Line(chartData);
   <script src= "app.js" type="text/javascript"></script>
   </body>
 </html>
