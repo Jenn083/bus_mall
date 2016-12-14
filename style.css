@@ -4,3 +4,7 @@ img {
   border: 1px solid black;
 
 }
+
+button{
+  visibility: hidden;
+}
