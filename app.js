@@ -1,7 +1,9 @@
 
 'use strict'
-var allProducts = [];
+// var clicks =[];
+// var views= [];
 
+var allProducts = [];
 var clickCounter = 0;
 var leftImg = document.getElementById('left');
 var rightImg = document.getElementById('right');
@@ -94,11 +96,9 @@ function updateClickCount(src) {
   }
 }
 
-
+//////////////////////////////creating a chart
 leftImg.addEventListener('click', selectRandomPic);
-
 rightImg.addEventListener('click', selectRandomPic);
-
 centerImg.addEventListener('click', selectRandomPic);
 
 
@@ -115,3 +115,50 @@ function displayResult() {
     result.appendChild(liEl2);
   }
 }
+
+
+var clicks = [];
+var views = [];
+            // bar chart data
+var data = {
+  labels: fileName, // titles array we declared earlier
+  datasets: [
+    {
+      data: views, // votes array we declared earlier
+      backgroundColor: [
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy'
+      ],
+      hoverBackgroundColor: [
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple'
+      ]
+    }]
+};
+
+function drawChart() {
+  var ctx = document.getElementById('funky-chart').getContext('2d');
+    songChart = new Chart(ctx,{
+      type: 'polarArea',
+      data: data,
+      options: {
+        responsive: false
+      },
+      scales: [{
+        ticks: {
+          beginAtZero:true
+        }
+      }]
+    });
+      chartDrawn = true;
+    }
+
+            function hideChart() {
+              document.getElementById('funky-chart').hidden = true;
+            }
