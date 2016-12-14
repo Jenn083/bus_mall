@@ -87,21 +87,28 @@ selectRandomPic();
 
 function updateClickCount(src) {
 //find an item from allProducts[] that has a filePath that equals src
+
   for(var i = 0; i < allProducts.length; i++) {
     if( src.indexOf(allProducts[i].filePath) > 0){
       allProducts[i].clicks += 1;
     }
   }
-}
 
+
+  if(!localStorage.getItem('jennifer')){
+    localStorage.setItem('jennifer',JSON.stringify(allProducts));
+  } else {
+    var retrievedData = localStorage.getItem('jennifer');
+    var allProducts2 = JSON.parse(retrievedData);
+    localStorage.setItem('jennifer',JSON.stringify(allProducts2));
+  }//end of imageMaker function
+}
 
 leftImg.addEventListener('click', selectRandomPic);
 
 rightImg.addEventListener('click', selectRandomPic);
 
 centerImg.addEventListener('click', selectRandomPic);
-
-
 
 var result = document.getElementById('result');
 function displayResult() {
