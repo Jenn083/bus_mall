@@ -1,6 +1,15 @@
 
 'use strict'
 var allProducts = [];
+
+var clickCounter = 0;
+var leftImg = document.getElementById('left');
+var rightImg = document.getElementById('right');
+var centerImg = document.getElementById('center');
+// var container_box = document.getElementById('img_container');
+// var clicks = 0;
+// var totalViews = 0;
+// var img_container = document.getElementById('img_container');
 console.log(allProducts);
 
 function ImageMaker(filePath,fileName) {
@@ -12,56 +21,97 @@ function ImageMaker(filePath,fileName) {
 }//end of imageMaker function
 //////////////////////////////////////////////////////////////////////////
 // function allImages() {
-new ImageMaker('assets/bag.jpg','bag');
-new ImageMaker('assets/banana.jpg','banana');
-new ImageMaker('assets/bathroom.jpg','bathroom');
-new ImageMaker('assets/boots.jpg','boots');
-new ImageMaker('assets/breakfast.jpg','breakfast');
-new ImageMaker('assets/bubblegum.jpg','bubblegum');
-new ImageMaker('assets/chair.jpg','chair');
-new ImageMaker('assets/cthulhu.jpg','cthulhu');
-new ImageMaker('assets/dog-duck.jpg','dogduck');
-new ImageMaker('assets/dragon.jpg','dragon');
-new ImageMaker('assets/pen.jpg','pen');
-new ImageMaker('assets/pet-sweep.jpg','petsweep');
-new ImageMaker('assets/scissors.jpg','scissors');
-new ImageMaker('assets/shark.jpg','shark');
-new ImageMaker('assets/sweep.png','sweep');
-new ImageMaker('assets/tauntaun.jpg','tauntaun');
-new ImageMaker('assets/unicorn.jpg','unicorn');
-new ImageMaker('assets/usb.gif','usb');
-new ImageMaker('assets/water-can.jpg','watercan');
-new ImageMaker('assets/wine-glass.jpg','wine');
+new ImageMaker('img/bag.jpg','bag');
+new ImageMaker('img/banana.jpg','banana');
+new ImageMaker('img/bathroom.jpg','bathroom');
+new ImageMaker('img/boots.jpg','boots');
+new ImageMaker('img/bubblegum.jpg','bubblegum');
+new ImageMaker('img/chair.jpg','chair');
+new ImageMaker('img/cthulhu.jpg','cthulhu');
+new ImageMaker('img/dog_duck.jpg','dogduck');
+new ImageMaker('img/dragon.jpg','dragon');
+new ImageMaker('img/pen.jpg','pen');
+new ImageMaker('img/pet_sweep.jpg','petsweep');
+new ImageMaker('img/scissors.jpg','scissors');
+new ImageMaker('img/shark.jpg','shark');
+new ImageMaker('img/sweep.jpg','sweep');
+new ImageMaker('img/tauntaun.jpg','tauntaun');
+new ImageMaker('img/unicorn.jpg','unicorn');
+new ImageMaker('img/usb.jpg','usb');
+new ImageMaker('img/water_can.jpg','watercan');
+new ImageMaker('img/wine_glass.jpg','wine');
 // }
 
 // allImages();
 
+/////////////////////////////////////////////////////////////
 
+function selectRandomPic(event) {
+  if(event){
+    event.preventDefault();
+    updateClickCount(event.target.src);
+  }
+  if(clickCounter < 26){
+    clickCounter += 1;
 
-function selectRandomLeft() {
-  var randomIndex= Math.floor(Math.random() * allProducts.length);
-  console.log(allProducts[randomIndex]);
-  var left = document.getElementById('left');
-  // left.src = allProducts[randomIndex[0]].src;
-  left.src=allProducts[randomIndex].filePath;
+    var left = document.getElementById('left');
+    var randomIndexLeft = Math.floor(Math.random() * allProducts.length);
+    left.src=allProducts[randomIndexLeft].filePath;
+    console.log(allProducts[randomIndexLeft].filePath);
+    allProducts[randomIndexLeft].views += 1;
+    var leftItem = allProducts[randomIndexLeft];
+    allProducts.splice(randomIndexLeft, 1);
+
+    var center = document.getElementById('center');
+    var randomIndexCenter = Math.floor(Math.random() * allProducts.length);
+    center.src=allProducts[randomIndexCenter].filePath;
+    allProducts[randomIndexCenter].views += 1;
+    var centerItem = allProducts[randomIndexCenter];
+
+    var right = document.getElementById('right');
+    allProducts.splice(randomIndexCenter,1);
+    var randomIndexRight = Math.floor(Math.random() * allProducts.length);
+    right.src=allProducts[randomIndexRight].filePath;
+    allProducts[randomIndexRight].views += 1;
+    // var rightItem = allProducts[randomIndexRight];
+    allProducts.push(leftItem,centerItem);
+  }else{
+    // console.log(clickCounter);
+    var show = document.getElementById('show');
+    show.addEventListener('click',displayResult);
+    document.getElementById('show').style.visibility='visible';
+  }
 }
-selectRandomLeft();
 
-function selectRandomCenter() {
-  var randomIndex= Math.floor(Math.random() * allProducts.length);
-  console.log(allProducts[randomIndex]);
-  var center = document.getElementById('center');
-  // center.src = allProducts[randomIndex[1]].src;
-  center.src=allProducts[randomIndex].filePath;
-}
-selectRandomCenter();
+selectRandomPic();
 
-function selectRandomRight() {
-  var randomIndex= Math.floor(Math.random() * allProducts.length);
-  console.log(allProducts[randomIndex]);
-  var right = document.getElementById('right');
-  // right.src = allProducts[randomIndex[2]].src;
-  right.src=allProducts[randomIndex].filePath;
+function updateClickCount(src) {
+//find an item from allProducts[] that has a filePath that equals src
+  for(var i = 0; i < allProducts.length; i++) {
+    if( src.indexOf(allProducts[i].filePath) > 0){
+      allProducts[i].clicks += 1;
+    }
+  }
 }
 
-selectRandomRight();
+
+leftImg.addEventListener('click', selectRandomPic);
+
+rightImg.addEventListener('click', selectRandomPic);
+
+centerImg.addEventListener('click', selectRandomPic);
+
+
+
+var result = document.getElementById('result');
+function displayResult() {
+  result.innerHTML = '';
+  for (var i = 0; i < allProducts.length; i++) {
+    var liEl = document.createElement('li');
+    var liEl2 = document.createElement('li');
+    liEl.textContent = allProducts[i].fileName + ' has been clicked ' + allProducts[i].clicks + ' times';
+    liEl2.textContent = allProducts[i].fileName + ' has been viewed ' + allProducts[i].views + ' times';
+    result.appendChild(liEl);
+    result.appendChild(liEl2);
+  }
+}
