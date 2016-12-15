@@ -1,19 +1,19 @@
 
 'use strict'
 var allProducts = [];
-var names = ['bag','banana','bathroom','boots','bubblegum','chair','cthulhu','dogduck','dragon','pen','petsweep','scissors','shark','sweep','tauntaun','unicorn','usb','watercan','wine'];
+var names = ['bag','banana','bathroom','boots','bubblegum','chair','cthulhu','dog_duck','dragon','pen','pet_sweep','scissors','shark','sweep','tauntaun','unicorn','usb','water_can','wine_glass'];
 var clickCounter = 0;
 var leftImg = document.getElementById('left');
 var rightImg = document.getElementById('right');
 var centerImg = document.getElementById('center');
 // var container_box = document.getElementById('img_container');
 
-var jen = document.getElementById('bar_chart').getContext('2d');
+
 // var img_container = document.getElementById('img_container');
 console.log(allProducts);
 
-function ImageMaker(filePath,fileName) {
-  this.filePath = filePath;
+function ImageMaker(fileName) {
+  this.filePath = 'img/' + fileName + '.jpg',
   this.fileName = fileName;
   this.clicks = 0;
   this.views = 0;
@@ -21,35 +21,41 @@ function ImageMaker(filePath,fileName) {
 }//end of imageMaker function
 //////////////////////////////////////////////////////////////////////////
 // function allImages() {
-new ImageMaker('img/bag.jpg','bag');
-new ImageMaker('img/banana.jpg','banana');
-new ImageMaker('img/bathroom.jpg','bathroom');
-new ImageMaker('img/boots.jpg','boots');
-new ImageMaker('img/bubblegum.jpg','bubblegum');
-new ImageMaker('img/chair.jpg','chair');
-new ImageMaker('img/cthulhu.jpg','cthulhu');
-new ImageMaker('img/dog_duck.jpg','dogduck');
-new ImageMaker('img/dragon.jpg','dragon');
-new ImageMaker('img/pen.jpg','pen');
-new ImageMaker('img/pet_sweep.jpg','petsweep');
-new ImageMaker('img/scissors.jpg','scissors');
-new ImageMaker('img/shark.jpg','shark');
-new ImageMaker('img/sweep.jpg','sweep');
-new ImageMaker('img/tauntaun.jpg','tauntaun');
-new ImageMaker('img/unicorn.jpg','unicorn');
-new ImageMaker('img/usb.jpg','usb');
-new ImageMaker('img/water_can.jpg','watercan');
-new ImageMaker('img/wine_glass.jpg','wine');
+for(var i = 0; i < names.length; i++) {
+  new ImageMaker(names[i]);
+}
+// new ImageMaker('img/bag.jpg','bag');
+// new ImageMaker('img/banana.jpg','banana');
+// new ImageMaker('img/bathroom.jpg','bathroom');
+// new ImageMaker('img/boots.jpg','boots');
+// new ImageMaker('img/bubblegum.jpg','bubblegum');
+// new ImageMaker('img/chair.jpg','chair');
+// new ImageMaker('img/cthulhu.jpg','cthulhu');
+// new ImageMaker('img/dog_duck.jpg','dogduck');
+// new ImageMaker('img/dragon.jpg','dragon');
+// new ImageMaker('img/pen.jpg','pen');
+// new ImageMaker('img/pet_sweep.jpg','petsweep');
+// new ImageMaker('img/scissors.jpg','scissors');
+// new ImageMaker('img/shark.jpg','shark');
+// new ImageMaker('img/sweep.jpg','sweep');
+// new ImageMaker('img/tauntaun.jpg','tauntaun');
+// new ImageMaker('img/unicorn.jpg','unicorn');
+// new ImageMaker('img/usb.jpg','usb');
+// new ImageMaker('img/water_can.jpg','watercan');
+// new ImageMaker('img/wine_glass.jpg','wine');
 // }
 
 // allImages();
 
-/////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////show three random pics
 
 function selectRandomPic(event) {
   if(event){
     event.preventDefault();
     updateClickCount(event.target.src);
+    if(event.target.id === 'img_container'){
+      return alert('CLICK ON A PICTURE!!!! NOT THE BACKGROUND!!!');
+    }
   }
   if(clickCounter < 26){
     clickCounter += 1;
@@ -75,9 +81,10 @@ function selectRandomPic(event) {
     allProducts[randomIndexRight].views += 1;
     // var rightItem = allProducts[randomIndexRight];
     allProducts.push(leftItem,centerItem);
+    showChart();
   }else{
     // console.log(clickCounter);
-    var show = document.getElementById('show');
+    var show = document.getElementById('show');///show button
     show.addEventListener('click',displayResult);
     document.getElementById('show').style.visibility='visible';
   }
@@ -108,39 +115,53 @@ leftImg.addEventListener('click', selectRandomPic);
 rightImg.addEventListener('click', selectRandomPic);
 
 centerImg.addEventListener('click', selectRandomPic);
-
+////////////////////////////////percentage
 var result = document.getElementById('result');
 function displayResult() {
   result.innerHTML = '';
   for (var i = 0; i < allProducts.length; i++) {
+    var percentage = Math.round(allProducts[i].clicks/allProducts[i].views * 100);
+
     var liEl = document.createElement('li');
-    var liEl2 = document.createElement('li');
-    liEl.textContent = allProducts[i].fileName + ' has been clicked ' + allProducts[i].clicks + ' times';
-    liEl2.textContent = allProducts[i].fileName + ' has been viewed ' + allProducts[i].views + ' times';
+
+    liEl.textContent = allProducts[i].fileName + ' has been clicked ' + allProducts[i].clicks + ' times and viewed ' + allProducts[i].views + ' times. Percentage of clicks when viewed: ' + percentage + '%'
+
     result.appendChild(liEl);
-    result.appendChild(liEl2);
+
   }
 }
-var clicks = [];
-var totalViews = [];
-for(var i = 0; i<allProducts.length;i++){
-  totalViews.push(allProducts[i].views);
-}
-var bar_chart = new Chart(jen, {
-  type: 'bar',
-  data: {
-    labels:names,
+
+
+function showChart(){
+  var totalClicks = [];
+  var totalViews = [];
+  var productName = [];
+  for(var i = 0; i<allProducts.length;i++){
+    // var calViews = allProducts[i].views;
+    totalViews.push(allProducts[i].views);
+    // totalViews.push(calViews);
+    // var calClicks =allProducts[i].click;
+    totalClicks.push(allProducts[i].clicks);
+    productName.push(allProducts[i].fileName);
+    // totalClicks.push(calClicks);
+
+  }
+  var ctx = document.getElementById('bar_chart').getContext('2d');
+  var bar_chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels:productName,
     //  ['bag','banana','bathroom','boots','breakfast','bubblegum','chair','cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','tauntaun','unicorn','usb','water-can','wine-glass'],
-    datasets: [{
-      label: 'views',
-      data: totalViews,
-      backgroundColor: 'rgba(153,255,51,0.4)'
-    }, {
-      label: 'clicks',
+      datasets: [{
+        label: 'views',
+        data: totalViews,
+        backgroundColor: 'rgba(153,255,51,0.4)'
+      }, {
+        label: 'clicks',
       // data: [2, 29, 5, 5, 2, 3, 10,2, 29, 5, 5, 2, 3, 10,2, 29, 5, 5, 2, 3],
-      data: clicks,
-      backgroundColor: 'rgba(255,153,0,0.4)'
-    }]
-  }
-});
-bar_chart();
+        data: totalClicks,
+        backgroundColor: 'rgba(255,153,0,0.4)'
+      }]
+    }
+  });
+}
