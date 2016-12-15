@@ -1,14 +1,14 @@
 
 'use strict'
 var allProducts = [];
-
+var names = ['bag','banana','bathroom','boots','bubblegum','chair','cthulhu','dogduck','dragon','pen','petsweep','scissors','shark','sweep','tauntaun','unicorn','usb','watercan','wine'];
 var clickCounter = 0;
 var leftImg = document.getElementById('left');
 var rightImg = document.getElementById('right');
 var centerImg = document.getElementById('center');
 // var container_box = document.getElementById('img_container');
-// var clicks = 0;
-// var totalViews = 0;
+
+var jen = document.getElementById('bar_chart').getContext('2d');
 // var img_container = document.getElementById('img_container');
 console.log(allProducts);
 
@@ -94,7 +94,6 @@ function updateClickCount(src) {
     }
   }
 
-
   if(!localStorage.getItem('jennifer')){
     localStorage.setItem('jennifer',JSON.stringify(allProducts));
   } else {
@@ -122,3 +121,26 @@ function displayResult() {
     result.appendChild(liEl2);
   }
 }
+var clicks = [];
+var totalViews = [];
+for(var i = 0; i<allProducts.length;i++){
+  totalViews.push(allProducts[i].views);
+}
+var bar_chart = new Chart(jen, {
+  type: 'bar',
+  data: {
+    labels:names,
+    //  ['bag','banana','bathroom','boots','breakfast','bubblegum','chair','cthulhu','dog-duck','dragon','pen','pet-sweep','scissors','shark','sweep','tauntaun','unicorn','usb','water-can','wine-glass'],
+    datasets: [{
+      label: 'views',
+      data: totalViews,
+      backgroundColor: 'rgba(153,255,51,0.4)'
+    }, {
+      label: 'clicks',
+      // data: [2, 29, 5, 5, 2, 3, 10,2, 29, 5, 5, 2, 3, 10,2, 29, 5, 5, 2, 3],
+      data: clicks,
+      backgroundColor: 'rgba(255,153,0,0.4)'
+    }]
+  }
+});
+bar_chart();
