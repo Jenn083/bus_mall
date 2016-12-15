@@ -124,7 +124,7 @@ function displayResult() {
 
     var liEl = document.createElement('li');
 
-    liEl.textContent = allProducts[i].fileName + ' has been clicked ' + allProducts[i].clicks + ' times and viewed ' + allProducts[i].views + ' times. Percentage of clicks when viewed: ' + percentage + '%'
+    liEl.textContent = allProducts[i].fileName + ' was clicked ' + allProducts[i].clicks + ' times and viewed ' + allProducts[i].views + ' times. Percentage of clicks/views: ' + percentage + '%'
 
     result.appendChild(liEl);
 
