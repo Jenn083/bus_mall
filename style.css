@@ -1,10 +1,36 @@
-img {
-  width:25%;
-  margin: 20px;
-  border: 1px solid black;
-
+body{
+  background-color: black;
+  color : white;
+}
+h1, h2 {
+  text-align: center;
 }
 
-button{
+p {
+  text-align: center;
+}
+
+img {
+  width:25%;
+  border: 1px solid black;
+  margin: 20px;
+}
+.canvas {
+  width:500px;
+  margin: 0 auto;
+}
+#img_container {
+  margin: 0 auto;
+  width: 600px;
+}
+button {
   visibility: hidden;
+  background-color: green;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  margin-top: 0px;
 }
